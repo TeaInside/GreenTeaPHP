@@ -40,5 +40,13 @@ $wb = file_put_contents($m4TargetGen, $m4String);
 printf("%d bytes are written to %s\n", $wb, $m4TargetGen);
 
 shechdir($buildDir);
-she("phpize");
+if (!file_exists($buildDir."/.phpize.lock")) {
+    she("phpize");
+    touch($buildDir."/.phpize.lock");
+}
+
+if (!file_exists($buildDir."/.configure.lock")) {
+    she("./configure");
+    touch($buildDir."/.configure.lock");
+}
 
