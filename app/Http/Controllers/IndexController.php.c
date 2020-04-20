@@ -2,16 +2,16 @@
 #include <stdio.h>
 #include "greentea_php.h"
 
-<?php echo begin_class("App/Controllers/IndexController"); ?>
+<?php echo ($st = new PHPClass("App\\Controllers", "IndexController")); ?>
 
-PHP_METHOD(classname, __construct)
+<?php $st->method("__construct"); ?>
 {
   printf("Initializing data...\n");
 }
 
-PHP_METHOD(classname, hello)
+<?php $st->method("hello"); ?>
 {
-  return RETURN_STRING("Hello World")
+  RETURN_STRING("Hello World")
 }
 
-<?php echo end_class(); ?>
+<?php $st->end(); ?>
