@@ -5,18 +5,21 @@ $m4FragFile     = FRAGMENTS_DIR."/greentea_php.frag.m4";
 $m4String       = file_get_contents($m4FragFile);
 $m4TargetGen    = $buildDir."/config.m4";
 $cFiles         = "";
+$includesStr    = "";
+$includes       = [GREENTEA_PHP_SRC_DIR];
 $replace        = [
-    "\$~~FILES~~\$" => &$cFiles
+    "\$~~FILES~~\$" => &$cFiles,
+    "\$~~INCLUDES~~\$" => &$includesStr
 ];
 
 if (!file_exists($buildDir)) {
-    she("cp -asv ".
+    she("cp -asvf ".
         escapeshellarg(GREENTEA_PHP_SRC_DIR)." ".
         escapeshellarg($buildDir)
     );
 }
 
-she("cp -asv ".
+she("cp -asvf ".
     escapeshellarg(APP_DIR)." ".
     escapeshellarg($buildDir)
 );
@@ -51,6 +54,11 @@ recursive_callback_scan(APP_DIR,
         }
     }
 );
+
+// Prepare includes file.
+foreach ($includes as $k => $v) {
+    $includesStr .= "\n  PHP_ADD_INCLUDE(".$v.")";
+}
 
 $m4String = str_replace(array_keys($replace),
     array_values($replace), $m4String);
