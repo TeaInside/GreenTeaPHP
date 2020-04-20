@@ -1,27 +1,33 @@
 <?php
 
+$buildDir       = BUILD_DIR."/greentea_php";
 $m4FragFile     = FRAGMENTS_DIR."/greentea_php.frag.m4";
 $m4String       = file_get_contents($m4FragFile);
-$m4TargetGen    = GREENTEA_PHP_SRC_DIR."/config.m4";
+$m4TargetGen    = $buildDir."/config.m4";
 $cFiles         = "";
-
-$replace        =
-[
+$replace        = [
     "\$~~FILES~~\$" => &$cFiles
 ];
 
-// Scan all C files.
+if (!file_exists($buildDir)) {
+    she("cp -asv ".
+        escapeshellarg(GREENTEA_PHP_SRC_DIR)." ".
+        escapeshellarg($buildDir)
+    );
+}
+
+// Scan all C files and copy it to build dir.
 recursive_callback_scan(
     GREENTEA_PHP_SRC_DIR,
-    function (string $file, string $dir, int $index) use (&$cFiles) {
+    function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
 
         $e = explode(".", $file);
         $e = end($e); // get file extension.
-        $dir = explode(".", GREENTEA_PHP_SRC_DIR, 2);
-        $dir = $dir[1] ?? "";
+        $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
+        $edir = empty($edir[1]) ? "" : ltrim($edir[1]."/", "/");
 
         if ($e === "c") {
-            $cFiles .= ltrim($dir."/".$file, "/")." ";
+            $cFiles .= (empty($cFiles) ? "" : " ").$edir.$file;
         }
     }
 );
@@ -32,4 +38,7 @@ $m4String = str_replace(array_keys($replace),
 printf("Generating config.m4 file...\n");
 $wb = file_put_contents($m4TargetGen, $m4String);
 printf("%d bytes are written to %s\n", $wb, $m4TargetGen);
+
+shechdir($buildDir);
+she("phpize");
 

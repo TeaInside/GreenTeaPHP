@@ -21,3 +21,34 @@ function recursive_callback_scan(string $dir, ?callable $callback = null): void
         }
     }
 }
+
+/**
+ * @param string $dir
+ * @return void
+ */
+$shechdir = BASEPATH;
+function shechdir(string $dir): void
+{
+    global $shechdir;
+    $shechdir = $dir;
+}
+
+/**
+ * @param string $cmd
+ * @param bool   $silent
+ * @return void
+ */
+function she(string $cmd, bool $silent = false): void
+{
+    global $shechdir;
+
+    $pipes = null;
+    $fd = [
+        ["file", "php://stdin", "r"],
+        ["file", ($silent ? "/dev/null" : "php://stdout"), "w"],
+        ["file", ($silent ? "/dev/null" : "php://stderr"), "w"],
+    ];
+
+    $p = proc_open($cmd, $fd, $pipes, $shechdir);
+    proc_close($p);
+}
