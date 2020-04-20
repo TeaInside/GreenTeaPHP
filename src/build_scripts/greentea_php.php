@@ -42,22 +42,9 @@ recursive_callback_scan(
     }
 );
 
-// Scan all app C files and plug it to $cFiles
-recursive_callback_scan(APP_DIR,
-    function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
+require __DIR__."/greentea_php/class_generator.php";
 
-        $e = explode(".", $file);
-        $e = end($e); // get file extension.
-        $edir = explode(APP_DIR, $dir, 2);
-        $edir = empty($edir[1]) ? "" : ltrim($edir[1]."/", "/");
-
-        if ($e === "c") {
-            $cFiles .= " app/".$edir.$file;
-        }
-    }
-);
-
-// Prepare includes file.
+// Prepare includes dir.
 foreach ($includes as $k => $v) {
     $includesStr .= "\n  PHP_ADD_INCLUDE(".$v.")";
 }

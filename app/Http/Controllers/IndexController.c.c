@@ -1,11 +1,11 @@
 
 #include "greentea_php.h"
 
-~~\begin{class}{App\Controllers\IndexController}
+<?php echo begin_class("App/Controllers/IndexController"); ?>
 
-PHP_METHOD()
+PHP_METHOD(classname, __construct)
 {
 
 }
 
-~~\end{class}
+<?php echo end_class(); ?>
