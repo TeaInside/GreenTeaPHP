@@ -51,4 +51,7 @@ if (!file_exists($buildDir."/.configure.lock")) {
 }
 
 she("make");
-
+she("cp -vf ".
+    escapeshellarg($buildDir."/modules/greentea.so")." ".
+    escapeshellarg(MODULES_DIR)
+);
