@@ -50,3 +50,5 @@ if (!file_exists($buildDir."/.configure.lock")) {
     touch($buildDir."/.configure.lock");
 }
 
+she("make");
+
