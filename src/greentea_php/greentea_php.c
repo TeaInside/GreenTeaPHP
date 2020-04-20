@@ -54,4 +54,5 @@ zend_module_entry greentea_module_entry = {
     NULL, /* RPOSTSHUTDOWN */
     STANDARD_MODULE_PROPERTIES_EX
 };
+
 ZEND_GET_MODULE(greentea);
