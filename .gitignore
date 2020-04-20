@@ -5,4 +5,5 @@
 *.log
 *.lock
 /build/
+/config.h
 /.phpintel/
