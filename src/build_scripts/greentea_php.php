@@ -16,7 +16,12 @@ if (!file_exists($buildDir)) {
     );
 }
 
-// Scan all C files and copy it to build dir.
+she("cp -asv ".
+    escapeshellarg(APP_DIR)." ".
+    escapeshellarg($buildDir)
+);
+
+// Scan all greentea C files and copy it to build dir.
 recursive_callback_scan(
     GREENTEA_PHP_SRC_DIR,
     function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
@@ -28,6 +33,21 @@ recursive_callback_scan(
 
         if ($e === "c") {
             $cFiles .= (empty($cFiles) ? "" : " ").$edir.$file;
+        }
+    }
+);
+
+// Scan all app C files and plug it to $cFiles
+recursive_callback_scan(APP_DIR,
+    function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
+
+        $e = explode(".", $file);
+        $e = end($e); // get file extension.
+        $edir = explode(APP_DIR, $dir, 2);
+        $edir = empty($edir[1]) ? "" : ltrim($edir[1]."/", "/");
+
+        if ($e === "c") {
+            $cFiles .= " app/".$edir.$file;
         }
     }
 );
