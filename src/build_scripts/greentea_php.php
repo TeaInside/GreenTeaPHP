@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__."/greentea_php/code_coverage.php";
+
 $buildDir       = BUILD_DIR."/greentea_php";
 $m4FragFile     = FRAGMENTS_DIR."/greentea_php.frag.m4";
 $m4String       = file_get_contents($m4FragFile);
