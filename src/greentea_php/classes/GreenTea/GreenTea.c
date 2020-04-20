@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include "../../greentea_php.h"
+#include "greentea_php.h"
 
 zend_class_entry *greentea_greentea;
 
