@@ -1,6 +1,6 @@
 <?php
 
-namespace GreenTeaPHP;
+namespace GreenTeaPHP\Build;
 
 final class PHPClass
 {
