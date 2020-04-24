@@ -19,3 +19,7 @@ recursive_callback_scan(APP_DIR,
     }
 );
 
+ob_start();
+require GREENTEA_PHP_SRC_DIR."/greentea_php.php.c";
+$out = ob_get_clean();
+file_put_contents($buildDir."/greentea_php.c", $out);

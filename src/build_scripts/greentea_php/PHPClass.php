@@ -3,6 +3,11 @@
 final class PHPClass
 {
     /**
+     * @var array
+     */
+    private static $phpClasses = [];
+
+    /**
      * @var string
      */
     private $namespace;
@@ -48,6 +53,14 @@ final class PHPClass
     }
 
     /**
+     * @return string
+     */
+    public function getHashed(): string
+    {
+        return $this->hashed;
+    }
+
+    /**
      * @param string $method
      * @param array  $attr
      * @return void
@@ -86,5 +99,41 @@ final class PHPClass
         $r .= "};\n";
 
         echo $r;
+    }
+
+    /**
+     * @param PHPClass
+     * @return void
+     */
+    public static function expose(PHPClass $phpClass): void
+    {
+        self::$phpClasses[] = $phpClass;
+    }
+
+    /**
+     * @return string
+     */
+    public static function declareClasses(): string
+    {
+        $str = "";
+        foreach (self::$phpClasses as $k => $v) {
+            $hashed = $v->getHashed();
+            $str .= "extern zend_class_entry *{$hashed};\n";
+            $str .= "extern const zend_function_entry {$hashed}_methods[];\n";
+        }
+        return $str;
+    }
+
+    /**
+     * @return string
+     */
+    public static function minitClasses(): string
+    {
+        $str = "";
+        foreach (self::$phpClasses as $k => $v) {
+            $hashed = $v->getHashed();
+            $str .= "INIT_NS_CLASS_ENTRY(ce_0, \"GreenTea", \"GreenTea\", greentea_greentea_methods);\n";
+            $str .= "{$hashed} = zend_register_internal_class(&ce_0 TSRMLS_CC);";
+        }
     }
 }

@@ -12,7 +12,7 @@ ZEND_DECLARE_MODULE_GLOBALS(greentea);
 
 extern zend_class_entry *greentea_greentea;
 extern const zend_function_entry greentea_greentea_methods[];
-$~~CLASSES_DECLARATIONS~~$
+<?php echo PhpClass::declareClasses(); ?>
 
 /**
  * Init.
@@ -20,11 +20,10 @@ $~~CLASSES_DECLARATIONS~~$
 static PHP_MINIT_FUNCTION(greentea)
 {
   zend_class_entry ce_0;
-  $~~ZEND_ENTRIES_CLASS~~$
 
   INIT_NS_CLASS_ENTRY(ce_0, "GreenTea", "GreenTea", greentea_greentea_methods);
   greentea_greentea = zend_register_internal_class(&ce_0 TSRMLS_CC);
-  $~~INIT_CLASS_ENTRIES~~$
+  <?PHP echo PhpClass::minitClasses(); ?>
 
   REGISTER_INI_ENTRIES();
   return SUCCESS;
