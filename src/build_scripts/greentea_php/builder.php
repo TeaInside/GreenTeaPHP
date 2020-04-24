@@ -24,7 +24,7 @@ recursive_callback_scan(
         if (preg_match("/(.+)\.php\.c/", $file, $m)) {
 
             $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
-            $edir = rtrim($edir[0], "/")."/" ?? "/";
+            $edir = isset($edir[0]) ? rtrim($edir[1], "/")."/" : "/";
 
             $targetDir = $buildDir."/".$edir;
             $targetFile = $m[1].".compiled.php";
