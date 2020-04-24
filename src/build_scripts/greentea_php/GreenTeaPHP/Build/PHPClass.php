@@ -151,5 +151,21 @@ final class PHPClass
             $str .= "INIT_NS_CLASS_ENTRY(ce_0, \"{$namespace}\", \"{$classname}\", greentea_greentea_methods);\n";
             $str .= "{$hashed} = zend_register_internal_class(&ce_0 TSRMLS_CC);";
         }
+        return $str;
+    }
+
+    /**
+     * @param string $source
+     * @param string $targetDir
+     * @param string $targetFile
+     * @return void
+     */
+    public static function compile(string $source, string $targetDir, string $targetFile): void
+    {
+        ob_start();
+        require $source;
+        $out = ob_get_clean();
+        $name = basename($source);
+        file_put_contents($targetDir."/".$targetFile, $out);
     }
 }
