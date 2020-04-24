@@ -38,6 +38,7 @@ final class PHPClass
         $this->namespace = $namespace;
         $this->classname = $classname;
         $this->hashed = 
+            "GTPHP_HASH_".
             str_replace("\\", "_", $namespace)."_".
             str_replace("\\", "_", $classname);
     }
@@ -156,13 +157,13 @@ final class PHPClass
      */
     public static function minitClasses(): string
     {
-        $str = "zend_class_entry ce;";
+        $str = "zend_class_entry ce;\n\n";
         foreach (self::$phpClasses as $k => $v) {
             $hashed = $v->getHashed();
             $namespace = $v->getNamespace();
             $classname = $v->getClassname();
-            $str .= "INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", greentea_greentea_methods);\n";
-            $str .= "{$hashed} = zend_register_internal_class(&ce TSRMLS_CC);";
+            $str .= "  INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", {$hashed}_methods);\n";
+            $str .= "  {$hashed} = zend_register_internal_class(&ce TSRMLS_CC);\n";
         }
         return $str;
     }
