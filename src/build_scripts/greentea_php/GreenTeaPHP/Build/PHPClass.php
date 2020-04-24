@@ -10,6 +10,11 @@ final class PHPClass
     private static $phpClasses = [];
 
     /**
+     * @var array
+     */
+    private static $compiledFiles = [];
+
+    /**
      * @var string
      */
     private $hashed;
@@ -25,7 +30,7 @@ final class PHPClass
     private $classname;
 
     /**
-     * @var arrau
+     * @var array
      */
     private $methods = [];
 
@@ -160,8 +165,8 @@ final class PHPClass
         $str = "zend_class_entry ce;\n\n";
         foreach (self::$phpClasses as $k => $v) {
             $hashed = $v->getHashed();
-            $namespace = $v->getNamespace();
-            $classname = $v->getClassname();
+            $namespace = str_replace("\\", "\\\\", $v->getNamespace());
+            $classname = str_replace("\\", "\\\\", $v->getClassname());
             $str .= "  INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", {$hashed}_methods);\n";
             $str .= "  {$hashed}_ce = zend_register_internal_class(&ce TSRMLS_CC);\n";
         }
@@ -172,19 +177,27 @@ final class PHPClass
      * @param string $source
      * @param string $targetDir
      * @param string $targetFile
+     * @param bool   $postScript
      * @return void
      */
-    public static function compile(string $source, string $targetDir, string $targetFile): void
+    public static function compile(string $source, string $targetDir, string $targetFile, bool $postScript = false): void
     {
         ob_start();
         require $source;
         $out = ob_get_clean();
         $name = basename($source);
         file_put_contents($targetDir."/".$targetFile, $out);
+        $postScript and self::$compiledFiles[] = [
+            "file" => $targetFile,
+            "dir" => $targetDir
+        ];
     }
 
-    public static function plugAppToMakefile()
+    /**
+     * @return &array
+     */
+    public static function &getCompiledFiles(): array
     {
-        
+        return self::$compiledFiles;
     }
 }
