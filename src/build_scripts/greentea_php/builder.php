@@ -12,6 +12,11 @@ if (!file_exists($buildDir)) {
     );
 }
 
+she("cp -asvf ".
+    escapeshellarg(APP_DIR)." ".
+    escapeshellarg($buildDir)
+);
+
 ConfigM4::addFile("greentea_php.c");
 
 // Scan all greentea C files.
