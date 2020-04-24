@@ -22,7 +22,7 @@ recursive_callback_scan(
         }
 
         $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
-        $edir = isset($edir[0]) ? trim($edir[1], "/")."/" : "";
+        $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
         if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
             $targetDir = $buildDir."/".$edir;
             $targetFile = $m[1].".compiled.php.c";
@@ -53,7 +53,7 @@ recursive_callback_scan(
         }
 
         $edir = explode(APP_DIR, $dir, 2);
-        $edir = isset($edir[0]) ? trim($edir[1], "/")."/" : "";
+        $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
 
         if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
             $targetDir = $buildDir."/app/".$edir;
@@ -66,9 +66,6 @@ recursive_callback_scan(
     }
 );
 
-ConfigM4::plugToMakefile($buildDir);
-PHPClass::compile(GREENTEA_PHP_SRC_DIR."/greentea_php.php.c", $buildDir, "greentea_php.c");
-
 shechdir($buildDir);
 if (!file_exists($buildDir."/.phpize.lock")) {
     she("phpize");
@@ -79,6 +76,9 @@ if (!file_exists($buildDir."/.configure.lock")) {
     she("./configure");
     touch($buildDir."/.configure.lock");
 }
+
+ConfigM4::plugToMakefile($buildDir);
+PHPClass::compile(GREENTEA_PHP_SRC_DIR."/greentea_php.php.c", $buildDir, "greentea_php.c");
 
 she("make");
 she("cp -vf ".

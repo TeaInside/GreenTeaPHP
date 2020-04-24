@@ -10,7 +10,9 @@
 
 <?php $st->method("hello"); ?>
 {
-  RETURN_STRING("Hello World")
+  zval *user_agent = get_server_var("HTTP_USER_AGENT");
+
+  RETURN_STRING(user_agent->value.str->val);
 }
 
 <?php $st->end(); PHPClass::expose($st); ?>
