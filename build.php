@@ -11,7 +11,7 @@ is_dir(BUILD_DIR) or mkdir(BUILD_DIR);
 
 // Build GreenTea PHP extension.
 $builds = [
-    BASEPATH."/src/build_scripts/greentea_php.php"
+    BASEPATH."/src/build_scripts/greentea_php/builder.php"
 ];
 
 // Do it here to isolate local variables.

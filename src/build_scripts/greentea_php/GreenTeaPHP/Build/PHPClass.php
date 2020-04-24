@@ -100,6 +100,22 @@ final class PHPClass
     }
 
     /**
+     * @return string
+     */
+    public function getClassname(): string
+    {
+        return $this->classname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    /**
      * @param PHPClass
      * @return void
      */
@@ -130,7 +146,9 @@ final class PHPClass
         $str = "";
         foreach (self::$phpClasses as $k => $v) {
             $hashed = $v->getHashed();
-            $str .= "INIT_NS_CLASS_ENTRY(ce_0, \"GreenTea", \"GreenTea\", greentea_greentea_methods);\n";
+            $namespace = $v->getNamespace();
+            $classname = $v->getClassname();
+            $str .= "INIT_NS_CLASS_ENTRY(ce_0, \"{$namespace}\", \"{$classname}\", greentea_greentea_methods);\n";
             $str .= "{$hashed} = zend_register_internal_class(&ce_0 TSRMLS_CC);";
         }
     }
