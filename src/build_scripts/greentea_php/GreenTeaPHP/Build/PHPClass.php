@@ -146,7 +146,7 @@ final class PHPClass
         $str = "";
         foreach (self::$phpClasses as $k => $v) {
             $hashed = $v->getHashed();
-            $str .= "extern zend_class_entry *{$hashed};\n";
+            $str .= "extern zend_class_entry *{$hashed}_ce;\n";
             $str .= "extern const zend_function_entry {$hashed}_methods[];\n";
         }
         return $str;
@@ -163,7 +163,7 @@ final class PHPClass
             $namespace = $v->getNamespace();
             $classname = $v->getClassname();
             $str .= "  INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", {$hashed}_methods);\n";
-            $str .= "  {$hashed} = zend_register_internal_class(&ce TSRMLS_CC);\n";
+            $str .= "  {$hashed}_ce = zend_register_internal_class(&ce TSRMLS_CC);\n";
         }
         return $str;
     }
@@ -181,5 +181,10 @@ final class PHPClass
         $out = ob_get_clean();
         $name = basename($source);
         file_put_contents($targetDir."/".$targetFile, $out);
+    }
+
+    public static function plugAppToMakefile()
+    {
+        
     }
 }

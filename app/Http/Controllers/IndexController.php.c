@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-<?php echo ($st = new PHPClass("App\\Controllers", "IndexController")); ?>
+<?php echo ($st = new PHPClass("App\\Http\\Controllers", "IndexController")); ?>
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {

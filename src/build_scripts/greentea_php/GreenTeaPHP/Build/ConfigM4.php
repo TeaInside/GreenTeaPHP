@@ -69,4 +69,9 @@ final class ConfigM4
         $out = ob_get_clean();
         file_put_contents($targetDir."/config.m4", $out);
     }
+
+    public static function plugToMakefile()
+    {
+        $r = "\$(LIBTOOL) --mode=compile \$(CC) -Wall -lpthread -I. -I".." $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/classes/GreenTea/GreenTea.compiled.php.c -o classes/GreenTea/GreenTea.lo";
+    }
 }
