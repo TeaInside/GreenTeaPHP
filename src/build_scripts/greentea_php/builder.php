@@ -18,14 +18,14 @@ ConfigM4::addFile("greentea_php.c");
 recursive_callback_scan(
     GREENTEA_PHP_SRC_DIR,
     function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
-        if ($file === "greentea.php.c") {
+        if ($file === "greentea_php.php.c") {
             return;
         }
-        if (preg_match("/(.+)\.php\.c/", $file, $m)) {
 
-            $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
-            $edir = isset($edir[0]) ? rtrim($edir[1], "/")."/" : "/";
+        $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
+        $edir = isset($edir[0]) ? rtrim($edir[1], "/")."/" : "";
 
+        if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
             $targetDir = $buildDir."/".$edir;
             $targetFile = $m[1].".compiled.php";
             is_dir($buildDir) or mkdir($buildDir);
@@ -33,8 +33,8 @@ recursive_callback_scan(
 
             PHPClass::compile($dir."/".$file, $targetDir, $targetFile);
             ConfigM4::addFile($targetFile);
-        } else if (preg_match("/.+\.php/", $file)) {
-            ConfigM4::addFile($file);
+        } else if (preg_match("/.+\.c$/", $file)) {
+            ConfigM4::addFile($edir.$file);
         }
 
     }

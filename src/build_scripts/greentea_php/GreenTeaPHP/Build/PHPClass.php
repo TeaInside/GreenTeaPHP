@@ -25,6 +25,11 @@ final class PHPClass
     private $classname;
 
     /**
+     * @var arrau
+     */
+    private $methods = [];
+
+    /**
      * @param string $namespace
      * @param string $classname
      */
@@ -34,7 +39,7 @@ final class PHPClass
         $this->classname = $classname;
         $this->hashed = 
             str_replace("\\", "_", $namespace)."_".
-            str_replace("\\", "_", $classname)."__hash";
+            str_replace("\\", "_", $classname);
     }
 
     /**
@@ -116,6 +121,14 @@ final class PHPClass
     }
 
     /**
+     * @return string
+     */
+    public function getHashed(): string
+    {
+        return $this->hashed;
+    }
+
+    /**
      * @param PHPClass
      * @return void
      */
@@ -143,13 +156,13 @@ final class PHPClass
      */
     public static function minitClasses(): string
     {
-        $str = "";
+        $str = "zend_class_entry ce;";
         foreach (self::$phpClasses as $k => $v) {
             $hashed = $v->getHashed();
             $namespace = $v->getNamespace();
             $classname = $v->getClassname();
-            $str .= "INIT_NS_CLASS_ENTRY(ce_0, \"{$namespace}\", \"{$classname}\", greentea_greentea_methods);\n";
-            $str .= "{$hashed} = zend_register_internal_class(&ce_0 TSRMLS_CC);";
+            $str .= "INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", greentea_greentea_methods);\n";
+            $str .= "{$hashed} = zend_register_internal_class(&ce TSRMLS_CC);";
         }
         return $str;
     }
