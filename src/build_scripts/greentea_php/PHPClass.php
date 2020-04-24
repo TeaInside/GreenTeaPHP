@@ -38,6 +38,16 @@ final class PHPClass
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $r = "#include \"greentea_php.h\"\n\n";
+        $r .= "zend_class_entry *{$this->hashed}_ce;\n";
+        return $r;
+    }
+
+    /**
      * @param string $method
      * @param array  $attr
      * @return void
@@ -69,10 +79,11 @@ final class PHPClass
     {
         $r = "const zend_function_entry {$this->hashed}_methods[] = {\n";
         foreach ($this->methods as $k => $v) {
-            $r .= "  PHP_ME({$this->hashed}, {$v}, NULL, )\n";
+            $v["attr"] = implode("|", $v["attr"]);
+            $r .= "  PHP_ME({$this->hashed}, {$v["name"]}, NULL, {$v["attr"]})\n";
         }
         $r .= "  PHP_FE_END\n";
-        $r .= "};";
+        $r .= "};\n";
 
         echo $r;
     }

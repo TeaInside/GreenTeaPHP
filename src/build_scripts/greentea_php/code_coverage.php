@@ -12,3 +12,5 @@ function generate_class(string $file): string
 
     return $out;
 }
+
+require __DIR__."/PHPClass.php";
