@@ -1,11 +1,8 @@
 
 <?php echo ($st = new PHPClass("GreenTea", "GreenTea")); ?>
 
-extern HashTable *server;
-
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {
-  
 }
 
 <?php $st->method("initWeb"); ?>

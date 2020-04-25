@@ -17,7 +17,7 @@ ZEND_DECLARE_MODULE_GLOBALS(greentea);
  */
 static PHP_MINIT_FUNCTION(greentea)
 {
-  <?PHP echo PhpClass::minitClasses(); ?>
+  <?php echo PhpClass::minitClasses(); ?>
 
   REGISTER_INI_ENTRIES();
   return SUCCESS;
