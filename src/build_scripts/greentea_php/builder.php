@@ -44,19 +44,37 @@ she("cp -asvf ".
     escapeshellarg(APP_DIR)." ".
     escapeshellarg($buildDir));
 
+she("cp -asvf ".
+    escapeshellarg(ROUTES_DIR)." ".
+    escapeshellarg($buildDir));
+
 // Scan all greentea C files.
 recursive_callback_scan(
     APP_DIR,
     function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
-        if ($file === "greentea_php.php.c") {
-            return;
-        }
-
         $edir = explode(APP_DIR, $dir, 2);
         $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
 
         if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
             $targetDir = $buildDir."/app/".$edir;
+            $targetFile = $m[1].".compiled.php.c";
+            is_dir($buildDir) or mkdir($buildDir);
+            is_dir($targetDir) or mkdir($targetDir);
+
+            PHPClass::compile($dir."/".$file, $targetDir, $targetFile, true);
+        }
+    }
+);
+
+// Scan all greentea C files.
+recursive_callback_scan(
+    ROUTES_DIR,
+    function (string $file, string $dir, int $index) use (&$cFiles, $buildDir) {
+        $edir = explode(APP_DIR, $dir, 2);
+        $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
+
+        if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
+            $targetDir = $buildDir."/routes/".$edir;
             $targetFile = $m[1].".compiled.php.c";
             is_dir($buildDir) or mkdir($buildDir);
             is_dir($targetDir) or mkdir($targetDir);
