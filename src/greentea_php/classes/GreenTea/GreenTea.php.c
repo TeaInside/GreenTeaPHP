@@ -1,8 +1,16 @@
 
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+extern void *entry_pt_1;
+extern void *entry_pt_2;
+
 <?php echo ($st = new PHPClass("GreenTea", "GreenTea")); ?>
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {
+  
 }
 
 <?php $st->method("initWeb"); ?>

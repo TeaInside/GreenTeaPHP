@@ -1,4 +1,9 @@
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 <?php
 echo ($st = new PHPClass("GreenTea", "Routes"));
 $ce  = function () use ($st) { echo $st->getHashed()."_ce"; };
