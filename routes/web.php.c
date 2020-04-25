@@ -1,8 +1,24 @@
 
-<?php echo ($st = new PHPClass("GreenTea", "Routes")); ?>
+<?php
+echo ($st = new PHPClass("GreenTea", "Routes"));
+$ce  = function () use ($st) { echo $st->getHashed()."_ce"; };
+
+$st->addProperty("uri", "null");
+
+?>
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {
+  char *uri;
+  size_t uri_len;
+
+  ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_STRING(uri, uri_len)
+  ZEND_PARSE_PARAMETERS_END();
+
+  zend_update_property_stringl(
+    <?php $ce(); ?>, getThis(), ZEND_STRL("uri"),
+    uri, uri_len TSRMLS_DC);
 }
 
 <?php $st->method("initWeb"); ?>
@@ -25,4 +41,8 @@
   printf("URI: %s\n", uri);
 }
 
-<?php $st->end(); PHPClass::expose($st); ?>
+
+<?php
+$st->end();
+PHPClass::expose($st);
+?>

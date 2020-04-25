@@ -1,6 +1,10 @@
 <?php
 
-$st = new GreenTea\GreenTea();
-$a = $st->initWeb();
-$st = new GreenTea\Routes();
-$a = $st->initWeb();
+$greenTea = new GreenTea\GreenTea();
+$greenTea->initWeb();
+
+$routes = new GreenTea\Routes($_SERVER["REQUEST_URI"] ?? "/");
+$routes->initWeb();
+
+$st = new App\Http\Controllers\IndexController();
+$a = $st->hello();
