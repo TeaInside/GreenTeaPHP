@@ -186,7 +186,12 @@ final class PHPClass
         require $source;
         $out = ob_get_clean();
         $name = basename($source);
-        file_put_contents($targetDir."/".$targetFile, $out);
+        $hash = md5($out);
+        $hashNow = file_exists($targetDir."/".$targetFile) 
+            ? md5(file_get_contents($targetDir."/".$targetFile)) : null;
+        if ($hash !== $hashNow) {
+            file_put_contents($targetDir."/".$targetFile, $out);
+        }
         $postScript and self::$compiledFiles[] = [
             "file" => $targetFile,
             "dir" => $targetDir

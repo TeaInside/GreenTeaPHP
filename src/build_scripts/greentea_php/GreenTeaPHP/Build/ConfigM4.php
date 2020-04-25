@@ -110,5 +110,6 @@ final class ConfigM4
         $m2 .= "\n";
 
         file_put_contents($makeFile, $m1.$m2.$m3);
+        she("touch -d \"2 hours ago\" ".escapeshellarg($makeFile));
     }
 }
