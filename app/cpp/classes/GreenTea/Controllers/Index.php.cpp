@@ -4,6 +4,8 @@
 <?php
 $st = new PHPClass("GreenTea\\Controllers", "Index", __FILE__);
 $st->start();
+$st->addProperty("username", "null");
+$st->addProperty("password", "null");
 ?>
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
