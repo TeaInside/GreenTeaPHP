@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "greentea_php.h"
 
 zval *get_server_var(char *key)
