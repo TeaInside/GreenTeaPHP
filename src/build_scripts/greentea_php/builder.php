@@ -54,7 +54,7 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
       ConfigM4::addFile($edir.$m[1].".compiled.".$m[2]);
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       mkdirp($buildDir."/".$edir);
-      link($dir."/".$file, $buildDir."/".$edir.$file);
+      @link($dir."/".$file, $buildDir."/".$edir.$file);
       ConfigM4::addFile($edir.$file);
     }
   }
@@ -77,7 +77,7 @@ recursive_callback_scan($appDir,
       PHPClass::compile($sourceFile, $targetFile);
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       $targetFile = $buildDir."/".$edir.$file;
-      link($targetFile, $dir."/".$file);
+      @link($targetFile, $dir."/".$file);
     }
     isset($targetFile) and PHPClass::addAppFile($targetFile);
   }
