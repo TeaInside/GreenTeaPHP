@@ -6,10 +6,9 @@
 
 <?php
 echo ($st = new PHPClass("GreenTea", "Routes"));
-$ce  = function () use ($st) { echo $st->getHashed()."_ce"; };
+$ce = function () use ($st) { echo $st->getHashed()."_ce"; };
 
-$st->addProperty("uri", "null");
-
+$st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
 ?>
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
@@ -17,12 +16,13 @@ $st->addProperty("uri", "null");
   char *uri;
   size_t uri_len;
 
-  ZEND_PARSE_PARAMETERS_START(1, 1)
+  ZEND_PARSE_PARAMETERS_START(0, 1)
+    Z_PARAM_OPTIONAL
     Z_PARAM_STRING(uri, uri_len)
   ZEND_PARSE_PARAMETERS_END();
 
   zend_update_property_stringl(
-    <?php $ce(); ?>, getThis(), ZEND_STRL("uri"),
+    <?php $ce(); ?>, getThis(), ZEND_STRL("custom_url"),
     uri, uri_len TSRMLS_DC);
 }
 
@@ -43,7 +43,7 @@ $st->addProperty("uri", "null");
     len = z_uri->value.str->len;
   }
 
-  printf("URI: %s\n", uri);
+
 }
 
 

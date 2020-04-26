@@ -71,7 +71,7 @@ final class PHPClass
   {
     $r = "const zend_function_entry {$this->hashed}_methods[] = {\n";
     foreach ($this->methods as $k => $v) {
-      $v["attr"] = implode("|", $v["attr"]);
+      $v["attr"] = implode(" | ", $v["attr"]);
       $r .= "  PHP_ME({$this->hashed}, {$v["name"]}, NULL, {$v["attr"]})\n";
     }
     $r .= "  PHP_FE_END\n";
@@ -227,13 +227,26 @@ final class PHPClass
 
   /**
    * @param string $name
+   * @param string $type
+   * @param array  $attr
    * @return void
    */
-  public function addProperty(string $name, string $type)
+  public function addProperty(string $name, string $type, array $attr = [])
   {
+    // Make sure a method has access modifer.
+    // Set to public if it is not provided.
+    if (
+      (array_search("ZEND_ACC_PUBLIC", $attr) === false) &&
+      (array_search("ZEND_ACC_PRIVATE", $attr) === false) &&
+      (array_search("ZEND_ACC_PROTECTED", $attr) === false)) {
+      $attr[] = "ZEND_ACC_PUBLIC";
+    }
+
+    $attr = implode(" | ", $attr);
+
     switch ($type) {
       case "null":
-        $r = "zend_declare_property_null({$this->hashed}_ce, ZEND_STRL(\"{$name}\"), ZEND_ACC_PRIVATE TSRMLS_CC);\n";
+        $r = "zend_declare_property_null({$this->hashed}_ce, ZEND_STRL(\"{$name}\"), {$attr} TSRMLS_CC);\n";
       break;
       
       default:

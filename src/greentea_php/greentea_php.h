@@ -18,7 +18,7 @@
   PHP_INI_END()
 
   #ifndef GREENTEA_PHP_MAIN
-    #include "class_utils.h"
+    #include <greentea/helpers/global.h>
     extern zend_module_entry greentea_module_entry;
   #endif
 
