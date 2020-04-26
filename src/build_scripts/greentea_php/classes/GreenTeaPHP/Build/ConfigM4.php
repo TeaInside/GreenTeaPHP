@@ -62,4 +62,21 @@ final class ConfigM4
     $files = trim($files);
     echo "  PHP_NEW_EXTENSION(greentea, {$files}, \$ext_shared,, \"-Wall\")";
   }
+
+  /**
+   * @param string $source
+   * @param string $targetFile
+   */
+  public static function generate(string $source, string $targetFile): void
+  {
+    ob_start();
+    require $source;
+    $out = ob_get_clean();
+    $curHash = md5($out);
+    $oldHash = file_exists($targetFile) ? md5_file($targetFile) : null;
+
+    if ($curHash !== $oldHash) {
+      file_put_contents($targetFile, $out);
+    }
+  }
 }

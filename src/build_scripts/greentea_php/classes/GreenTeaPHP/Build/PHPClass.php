@@ -26,6 +26,11 @@ final class PHPClass
   private static $pendingM4Files = [];
 
   /**
+   * @var array
+   */
+  private static $appEntryFiles = [];
+
+  /**
    * @var string
    */
   private $namespace;
@@ -222,14 +227,9 @@ final class PHPClass
   /**
    * @param string $sourceFile
    * @param string $targetFile
-   * @param bool   $addToM4
    * @return void
    */
-  public static function compile(
-    string $sourceFile,
-    string $targetFile,
-    bool $addToM4 = false
-  ): void
+  public static function compile(string $sourceFile, string $targetFile): void
   {
     ob_start();
     require $sourceFile;
@@ -240,12 +240,15 @@ final class PHPClass
     if ($curHash !== $oldHash) {
       file_put_contents($targetFile, $out);
     }
+  }
 
-    if ($addToM4) {
-      self::$pendingM4Files[] = [
-        "file" => basename($targetFile),
-        "dir" => dirname($targetFile)
-      ];
+  /**
+   * @return void
+   */
+  public static function buildAppEntry(): void
+  {
+    foreach (self::$appEntryFiles as $file) {
+      echo "#include \"{$file}\"\n";
     }
   }
 }
