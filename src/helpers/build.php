@@ -52,3 +52,17 @@ function she(string $cmd, bool $silent = false): void
   $p = proc_open($cmd, $fd, $pipes, $shechdir);
   proc_close($p);
 }
+
+/**
+ * @param string $dir
+ * @return bool
+ */
+function mkdirp(string $dir)
+{
+  $rdir = "";
+  foreach (explode("/", $dir) as $v) {
+    $rdir .= $v."/";
+    is_dir($rdir) or mkdir($rdir);
+  }
+  return is_dir($dir);
+}
