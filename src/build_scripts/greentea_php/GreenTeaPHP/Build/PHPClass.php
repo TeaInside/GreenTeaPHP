@@ -47,6 +47,9 @@ final class PHPClass
   /**
    * @param string $namespace
    * @param string $classname
+   * @param string $ext
+   *
+   * Constructor.
    */
   public function __construct(string $namespace, string $classname, string $ext = "c")
   {
