@@ -54,7 +54,7 @@ final class ConfigM4
       $files .= $v." ";
     }
     $files = trim($files);
-    return "  PHP_NEW_EXTENSION(greentea, {$files}, \$ext_shared,, \"-Wall -lpthread\")";
+    return "  PHP_NEW_EXTENSION(greentea, {$files}, \$ext_shared,, \"-Wall\")";
   }
 
   /**
