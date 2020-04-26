@@ -58,10 +58,17 @@ WebRoutes::WebRoutes(char *uri)
 
 void WebRoutes::initWebRoutes()
 {
-  gt_web_routes[0].pat = mp_compile("^\\/hello$", PCRE2_CASELESS);
+  gt_web_routes[0].pat = mp_compile("^\\/hello$", 0);
   gt_web_routes[0].handler = [](route_pass &r) {
     Index *st = new Index(r);
     bool ret = st->hello();
+    delete st;
+    return ret;
+  };
+  gt_web_routes[1].pat = mp_compile("^\\/query_string$", 0);
+  gt_web_routes[1].handler = [](route_pass &r) {
+    Index *st = new Index(r);
+    bool ret = st->queryString();
     delete st;
     return ret;
   };

@@ -10,6 +10,7 @@ private:
 public:
   Index(route_pass &r);
   bool hello();
+  bool queryString();
 };
 
 } // namespace App::GreenTea::Controllers

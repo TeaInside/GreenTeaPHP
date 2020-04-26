@@ -1,10 +1,18 @@
 <?php
 $routes = [
   [
-    "pat" => ["/^\/hello$/", ["PCRE2_CASELESS"]],
+    "pat" => ["/^\/hello$/", []],
     "act" => [
       "class" => "App::GreenTea::Controllers::Index",
       "method" => "hello"
+    ]
+  ],
+
+  [
+    "pat" => ["/^\/query_string$/", []],
+    "act" => [
+      "class" => "App::GreenTea::Controllers::Index",
+      "method" => "queryString"
     ]
   ]
 ];
