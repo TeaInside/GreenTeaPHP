@@ -24,7 +24,7 @@ if ((!is_dir($buildDir)) && (!mkdir($buildDir))) {
 }
 
 // Add main files to m4.
-ConfigM4::addFile("app_entry.compiled.c");
+ConfigM4::addFile("app_entry.compiled.cpp");
 ConfigM4::addFile("greentea_php.compiled.c");
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR);
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR."/include");
@@ -83,15 +83,31 @@ recursive_callback_scan($appDir,
 
 PHPClass::compile(
   GREENTEA_PHP_SRC_DIR."/greentea_php.php.c",
-  $buildDir."/greentea.compiled.c",
-  true
+  $buildDir."/greentea_php.compiled.c"
 );
 PHPClass::compile(
-  GREENTEA_PHP_SRC_DIR."/app_entry.php.c",
-  $buildDir."/app_entry.compiled.c",
-  true
+  GREENTEA_PHP_SRC_DIR."/app_entry.php.cpp",
+  $buildDir."/app_entry.compiled.cpp"
 );
 ConfigM4::generate(
   GREENTEA_PHP_SRC_DIR."/config.php.m4",
   $buildDir."/config.m4"
+);
+
+
+shechdir($buildDir);
+if (!file_exists($buildDir."/.phpize.lock")) {
+  she("phpize");
+  touch($buildDir."/.phpize.lock");
+}
+
+if (!file_exists($buildDir."/.configure.lock")) {
+  she("./configure");
+  touch($buildDir."/.configure.lock");
+}
+
+she("make");
+she("cp -vf ".
+    escapeshellarg($buildDir."/modules/greentea.so")." ".
+    escapeshellarg(MODULES_DIR)
 );
