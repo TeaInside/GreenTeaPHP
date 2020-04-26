@@ -43,3 +43,10 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
     }
   }
 );
+
+
+PHPClass::compile(
+  GREENTEA_PHP_SRC_DIR."/greentea_php.php.c",
+  $buildDir."/greentea.compiled.c",
+  true
+);

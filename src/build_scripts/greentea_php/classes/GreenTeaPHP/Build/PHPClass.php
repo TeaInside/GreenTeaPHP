@@ -126,13 +126,24 @@ final class PHPClass
    * @param string $name
    * @param array  $attr
    */
-  public function addMethod(string $name, array $attr = []): void
+  public function method(string $name, array $attr = []): void
   {
     $this->methods[] = [
       "name" => $name,
       "attr" => $attr
     ];
-    echo "PHP_METHOD({$this->hash}, {$method})";
+    echo "PHP_METHOD({$this->hash}, {$name})\n";
+  }
+
+  /**
+   * @return void
+   */
+  public function start(): void
+  {
+    $r = "#include \"greentea_php.h\"\n\n";
+    $r .= "zend_class_entry *{$this->hash}_ce;\n";
+
+    echo $r;
   }
 
   /**
@@ -148,8 +159,15 @@ final class PHPClass
 
     $r .= "const zend_function_entry {$this->hash}_methods[] = {\n";
     foreach ($this->methods as $k => $v) {
+
+      if ((array_search("ZEND_ACC_PUBLIC", $v["attr"]) === false) &&
+          (array_search("ZEND_ACC_PRIVATE", $v["attr"]) === false) &&
+          (array_search("ZEND_ACC_PROTECTED", $v["attr"]) === false)) {
+        $v["attr"][] = "ZEND_ACC_PUBLIC";
+      }
       $v["attr"] = implode(" | ", $v["attr"]);
-      $r .= "  PHP_ME({$this->hashed}, {$v["name"]}, NULL, {$v["attr"]})\n";
+
+      $r .= "  PHP_ME({$this->hash}, {$v["name"]}, NULL, {$v["attr"]})\n";
     }
     $r .= "  PHP_FE_END\n};\n";
 
@@ -170,7 +188,7 @@ final class PHPClass
    */
   public static function buildMinitClasses(): void
   {
-    $r = "zend_class_entry ce;\n\n";
+    $r = "zend_class_entry ce;\n";
     foreach (self::$exposedClasses as $k => $v) {
       $hash = $v->getHash();
       $namespace = str_replace("\\", "\\\\", $v->getNamespace());
