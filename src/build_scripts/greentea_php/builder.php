@@ -24,19 +24,22 @@ if ((!is_dir($buildDir)) && (!mkdir($buildDir))) {
 
 recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
   function (string $file, string $dir, int $i) use ($buildDir) {
-    if ($file === "greentea_php.php.c") {
+
+    // Skip main and m4 files.
+    if ($file === "greentea_php.php.c" || $file === "config.php.m4")
       return;
-    }
 
-    $edir = explode(GREENTEA_PHP_SRC_DIR, $dir);
-    $edir = isset($edir[1]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
+    $edir     = explode(GREENTEA_PHP_SRC_DIR, $dir);
+    $edir     = isset($edir[1]) ? trim($edir[1], "/")."/" : "/";
+    $addToM4  = true;
 
-    if (preg_match("/(.+)\.php\.(.{1,5})/", $file, $m)) {
+    if (preg_match("/^(.+)\.php\.(.{1,5})$/", $file, $m)) {
       $sourceFile = $dir."/".$file;
-      $targetFile = $buildDir.$edir;
-      mkdirp($edir);
-
+      $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
+      mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile, $addToM4);
+    } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
+      ConfigM4::addFile($edir.$file);
     }
   }
 );

@@ -4,9 +4,6 @@ require __DIR__."/config/build.php";
 
 require BASEPATH."/src/helpers/build.php";
 
-mkdirp(__DIR__."/a/b/c/d/e/f/g/h/i");
-
-die;
 // Create build dir if it does not exist.
 is_dir(BUILD_DIR) or mkdir(BUILD_DIR);
 
