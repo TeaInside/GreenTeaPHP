@@ -11,6 +11,11 @@ namespace GreenTeaPHP\Build;
 final class PHPClass
 {
   /**
+   * @var string
+   */
+  private static $appToucherFile;
+
+  /**
    * @var array
    */
   private static $exposedClasses = [];
@@ -239,6 +244,9 @@ final class PHPClass
 
     if ($curHash !== $oldHash) {
       file_put_contents($targetFile, $out);
+      if (is_string(self::$appToucherFile)) {
+        touch(self::$appToucherFile);
+      }
     }
   }
 
@@ -258,5 +266,13 @@ final class PHPClass
     foreach (self::$appEntryFiles as $file) {
       echo "#include \"{$file}\"\n";
     }
+  }
+
+  /**
+   * @return void
+   */
+  public static function setAppToucherFile(string $file): void
+  {
+    self::$appToucherFile = $file;
   }
 }

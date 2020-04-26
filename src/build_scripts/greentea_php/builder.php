@@ -28,6 +28,7 @@ ConfigM4::addFile("app_entry.compiled.cpp");
 ConfigM4::addFile("greentea_php.compiled.c");
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR);
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR."/include");
+PHPClass::setAppToucherFile($buildDir."/app_entry.compiled.cpp");
 
 /**
  * GreenTea core generator.
