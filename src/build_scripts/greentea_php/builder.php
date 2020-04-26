@@ -38,6 +38,7 @@ recursive_callback_scan(
 );
 
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR);
+ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR."/include");
 ConfigM4::buildConfigM4File($configM4File, $buildDir);
 
 she("cp -asvf ".
