@@ -77,6 +77,7 @@ recursive_callback_scan($appDir,
       $targetFile = $buildDir."/".$edir.$file;
       link($targetFile, $dir."/".$file);
     }
+    isset($targetFile) and PHPClass::addAppFile($targetFile);
   }
 );
 

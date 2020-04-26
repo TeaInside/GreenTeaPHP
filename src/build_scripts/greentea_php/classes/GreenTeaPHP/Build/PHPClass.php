@@ -245,6 +245,14 @@ final class PHPClass
   /**
    * @return void
    */
+  public static function addAppFile(string $file): void
+  {
+    self::$appEntryFiles[] = $file;
+  }
+
+  /**
+   * @return void
+   */
   public static function buildAppEntry(): void
   {
     foreach (self::$appEntryFiles as $file) {
