@@ -16,6 +16,16 @@ final class PHPClass
   private static $exposedClasses = [];
 
   /**
+   * @var array
+   */
+  private static $initScripts = [];
+
+  /**
+   * @var array
+   */
+  private static $pendingM4Files = [];
+
+  /**
    * @var string
    */
   private $namespace;
@@ -153,5 +163,71 @@ final class PHPClass
   public static function expose(PHPClass $class): void
   {
     self::$exposedClasses[] = $class;
+  }
+
+  /**
+   * @return void
+   */
+  public static function buildMinitClasses(): void
+  {
+    $r = "zend_class_entry ce;\n\n";
+    foreach (self::$exposedClasses as $k => $v) {
+      $hash = $v->getHash();
+      $namespace = str_replace("\\", "\\\\", $v->getNamespace());
+      $classname = str_replace("\\", "\\\\", $v->getClassname());
+      $r .= "  INIT_NS_CLASS_ENTRY(ce, \"{$namespace}\", \"{$classname}\", {$hash}_methods);\n";
+      $r .= "  {$hash}_ce = zend_register_internal_class(&ce TSRMLS_CC);\n";
+    }
+
+    $r .= "\n\n";
+    foreach (self::$initScripts as $k => $v) {
+      $r .= $v;
+    }
+    $r .= "\n\n";
+    echo $r;
+  }
+
+  /**
+   * @return void
+   */
+  public static function declareClasses(): void
+  {
+    $r = "";
+    foreach (self::$exposedClasses as $k => $v) {
+      $hash = $v->getHash();
+      $r .= "extern zend_class_entry *{$hash}_ce;\n";
+      $r .= "extern const zend_function_entry {$hash}_methods[];\n";
+    }
+    echo $r;
+  }
+
+  /**
+   * @param string $sourceFile
+   * @param string $targetFile
+   * @param bool   $addToM4
+   * @return void
+   */
+  public static function compile(
+    string $sourceFile,
+    string $targetFile,
+    bool $addToM4 = false
+  ): void
+  {
+    ob_start();
+    require $sourceFile;
+    $out = ob_get_clean();
+    $curHash = md5($out);
+    $oldHash = file_exists($targetFile) ? md5_file($targetFile) : null;
+
+    if ($curHash !== $oldHash) {
+      file_put_contents($targetFile, $out);
+    }
+
+    if ($addToM4) {
+      self::$pendingM4Files[] = [
+        "file" => basename($targetFile),
+        "dir" => dirname($targetFile)
+      ];
+    }
   }
 }
