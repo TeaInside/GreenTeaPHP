@@ -14,7 +14,15 @@ $routes = [
       "class" => "App::GreenTea::Controllers::Index",
       "method" => "queryString"
     ]
-  ]
+  ],
+
+  [
+    "pat" => ["/^\/test_substr$/", []],
+    "act" => [
+      "class" => "App::GreenTea::Controllers::Index",
+      "method" => "testCallSubstr"
+    ]
+  ],
 ];
 
 $handle = fopen("{$__targetDirname}/using_def.hpp", "w");
