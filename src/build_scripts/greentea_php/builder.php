@@ -23,9 +23,9 @@ recursive_callback_scan(
 
         $edir = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
         $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
-        if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
+        if (preg_match("/(.+)\.php\.(c|cc|cpp|cxx)$/", $file, $m)) {
             $targetDir = $buildDir."/".$edir;
-            $targetFile = $m[1].".compiled.php.c";
+            $targetFile = $m[1].".compiled.php.".$m[2];
             is_dir($buildDir) or mkdir($buildDir);
             is_dir($targetDir) or mkdir($targetDir);
             PHPClass::compile($dir."/".$file, $targetDir, $targetFile);
@@ -56,9 +56,9 @@ recursive_callback_scan(
         $edir = explode(APP_DIR, $dir, 2);
         $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
 
-        if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
+        if (preg_match("/(.+)\.php\.(c|cc|cpp|cxx)$/", $file, $m)) {
             $targetDir = $buildDir."/app/".$edir;
-            $targetFile = $m[1].".compiled.php.c";
+            $targetFile = $m[1].".compiled.php.".$m[2];
             is_dir($buildDir) or mkdir($buildDir);
             is_dir($targetDir) or mkdir($targetDir);
 
@@ -74,9 +74,9 @@ recursive_callback_scan(
         $edir = explode(APP_DIR, $dir, 2);
         $edir = isset($edir[0]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
 
-        if (preg_match("/(.+)\.php\.c$/", $file, $m)) {
+        if (preg_match("/(.+)\.php\.(c|cc|cpp|cxx)$/", $file, $m)) {
             $targetDir = $buildDir."/routes/".$edir;
-            $targetFile = $m[1].".compiled.php.c";
+            $targetFile = $m[1].".compiled.php.".$m[2];
             is_dir($buildDir) or mkdir($buildDir);
             is_dir($targetDir) or mkdir($targetDir);
 

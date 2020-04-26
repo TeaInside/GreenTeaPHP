@@ -84,7 +84,9 @@ final class ConfigM4
     $rv1 = explode("shared_objects_greentea", file_get_contents($bakFile), 2);
     $rv2 = explode("\n", $rv1[1], 2);
     
-    $m1 = $rv1[0]."shared_objects_greentea";
+    $gpp = trim(shell_exec("which g++"));
+
+    $m1 = $rv1[0]."GPP = {$gpp}\nshared_objects_greentea";
     $m2 = $rv2[0];
     $m3 = $rv2[1];
 
@@ -92,6 +94,10 @@ final class ConfigM4
 
       $edir = explode($targetDir, $v["dir"], 2);
       $edir = isset($edir[1]) ? trim($edir[1], "/")."/" : "";
+
+      $ext = explode(".", $v["file"]);
+      $ext = end($ext);
+
       $vtfile = explode(".", $v["file"], 2)[0].".lo";
       $v["dir"] = rtrim($v["dir"], "/");
 
@@ -99,11 +105,19 @@ final class ConfigM4
 
       $m3 .= "# edt\n{$edir}{$vtfile}: {$fullPathFile}\n";
 
-      $m3 .= 
-        "\t\$(LIBTOOL) --mode=compile \$(CC) -Wall -lpthread -I. -I".
-        escapeshellarg($v["dir"]).
-        " \$(COMMON_FLAGS) \$(CFLAGS_CLEAN) \$(EXTRA_CFLAGS) -c ".
-        escapeshellarg($fullPathFile)." -o $edir{$vtfile}\n\n";
+      if ($ext === "c") {
+        $m3 .= 
+          "\t\$(LIBTOOL) --mode=compile \$(CC) -Wall -lpthread -I. -I".
+          escapeshellarg($v["dir"]).
+          " \$(COMMON_FLAGS) \$(CFLAGS_CLEAN) \$(EXTRA_CFLAGS) -c ".
+          escapeshellarg($fullPathFile)." -o $edir{$vtfile}\n\n";
+      } else {
+        $m3 .= 
+          "\t\$(LIBTOOL) --mode=compile \$(GPP) -Wall -lpthread -I. -I".
+          escapeshellarg($v["dir"]).
+          " \$(COMMON_FLAGS) \$(CFLAGS_CLEAN) \$(EXTRA_CFLAGS) -c ".
+          escapeshellarg($fullPathFile)." -o $edir{$vtfile}\n\n";
+      }
 
       $m2 .= " ".$edir.$vtfile;
     }
