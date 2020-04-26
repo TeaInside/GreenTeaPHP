@@ -39,7 +39,7 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
     if (
       $file === "greentea_php.php.c"  ||
       $file === "config.php.m4"       ||
-      $file === "app_entry.php.c"
+      $file === "app_entry.php.cpp"
     )
       return;
 
@@ -51,8 +51,10 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
       $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
       mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile);
-      ConfigM4::addFile($edir.$file);
+      ConfigM4::addFile($edir.$m[1].".compiled.".$m[2]);
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
+      mkdirp($buildDir."/".$edir);
+      link($dir."/".$file, $buildDir."/".$edir.$file);
       ConfigM4::addFile($edir.$file);
     }
   }

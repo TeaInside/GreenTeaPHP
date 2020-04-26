@@ -2,8 +2,6 @@
 #define GREENTEA_MAIN
 #include "greentea_php.h"
 
-#include <routes/web.hpp>
-
 #ifdef COMPILE_DL_GREENTEA
   #ifdef ZTS
     ZEND_TSRMLS_CACHE_DEFINE()
