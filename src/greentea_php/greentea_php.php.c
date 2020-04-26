@@ -2,6 +2,8 @@
 #define GREENTEA_MAIN
 #include "greentea_php.h"
 
+#include <routes/web.hpp>
+
 #ifdef COMPILE_DL_GREENTEA
   #ifdef ZTS
     ZEND_TSRMLS_CACHE_DEFINE()
@@ -19,6 +21,7 @@ static PHP_MINIT_FUNCTION(greentea)
 {
   <?php echo PhpClass::minitClasses(); ?>
 
+  greentea_init_routes();
   REGISTER_INI_ENTRIES();
   return SUCCESS;
 }
