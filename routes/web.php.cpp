@@ -1,15 +1,26 @@
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 
+#include <iostream>
+
+using namespace std;
+
+extern "C" {
+
+/*
 <?php
+echo "*"."/\n";
+
 echo ($st = new PHPClass("GreenTea", "Routes"));
 $ce = function () use ($st) { echo $st->getHashed()."_ce"; };
-
 $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
+
+echo "\n/"."*";
 ?>
+*/
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {
@@ -26,13 +37,17 @@ $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
     uri, uri_len TSRMLS_DC);
 }
 
+
 <?php $st->method("initWeb"); ?>
 {
   char *uri;
   size_t len;
   zval *z_uri;
 
-  z_uri = get_server_var("REQUEST_URI");
+  cout << "Initializing web...\n" << endl;
+
+  char rtmp[] = "REQUEST_URI";
+  z_uri = get_server_var(rtmp);
 
   if (z_uri == NULL) {
     char _slash[] = "/";
@@ -43,11 +58,12 @@ $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
     len = z_uri->value.str->len;
   }
 
-
+  // router here...
 }
-
 
 <?php
 $st->end();
 PHPClass::expose($st);
 ?>
+
+}; // extern "C"
