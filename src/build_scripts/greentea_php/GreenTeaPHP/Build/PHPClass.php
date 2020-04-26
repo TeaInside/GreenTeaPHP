@@ -50,6 +50,7 @@ final class PHPClass
    */
   public function __construct(string $namespace, string $classname, string $ext = "c")
   {
+    $this->ext = $ext;
     $this->namespace = $namespace;
     $this->classname = $classname;
     $this->hashed = 
@@ -77,7 +78,7 @@ final class PHPClass
     if ($this->ext === "c") {
       $r = "";
     } else {
-      $r = "extern \"C\" ";
+      $r = "extern \"C\"\n";
     }
     $r .= "const zend_function_entry {$this->hashed}_methods[] = {\n";
     foreach ($this->methods as $k => $v) {
@@ -142,11 +143,12 @@ final class PHPClass
   }
 
   /**
+   * @param string $suffix
    * @return string
    */
-  public function getHashed(): string
+  public function getHashed(string $suffix = ""): string
   {
-    return $this->hashed;
+    return $this->hashed.$suffix;
   }
 
   /**

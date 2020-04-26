@@ -4,15 +4,11 @@
 #include <cstdlib>
 #include <unistd.h>
 
-#include <iostream>
-
-using namespace std;
-
 extern "C" {
 
 <?php
 
-echo ($st = new PHPClass("GreenTea", "Routes"));
+echo ($st = new PHPClass("GreenTea", "Routes", "cpp"));
 $ce = function () use ($st) { echo $st->getHashed("_ce"); };
 
 $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
@@ -42,8 +38,6 @@ $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
   size_t len;
   zval *z_uri;
 
-  cout << "Initializing web...\n" << endl;
-
   char rtmp[] = "REQUEST_URI";
   z_uri = get_server_var(rtmp);
 
@@ -55,8 +49,6 @@ $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
     uri = z_uri->value.str->val;
     len = z_uri->value.str->len;
   }
-
-  // router here...
 }
 
 <?php $st->end(); PHPClass::expose($st); ?>
