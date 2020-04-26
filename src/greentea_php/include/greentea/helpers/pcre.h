@@ -23,6 +23,6 @@ void gt_pcre_res_destroy(pcre_res *result);
 pcre2_code *gt_pcre_compile(const unsigned char *pattern, uint32_t options);
 int gt_pcre_find(pcre2_code *re, const unsigned char *subject, pcre_res* result);
 
-#define mp_compile(A, B) my_pcre_compile((const unsigned char *)A, B)
+#define mp_compile(A, B) gt_pcre_compile((const unsigned char *)A, B)
 
 #endif

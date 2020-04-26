@@ -91,12 +91,15 @@ final class ConfigM4
     $m3 = $rv2[1];
 
     foreach (PHPClass::getCompiledFiles() as $k => $v) {
+      $ext = explode(".", $v["file"]);
+      $ext = end($ext);
+
+      if (in_array($ext, ["hpp", "h", "hxx"])) {
+        continue;
+      }
 
       $edir = explode($targetDir, $v["dir"], 2);
       $edir = isset($edir[1]) ? trim($edir[1], "/")."/" : "";
-
-      $ext = explode(".", $v["file"]);
-      $ext = end($ext);
 
       $vtfile = explode(".", $v["file"], 2)[0].".lo";
       $v["dir"] = rtrim($v["dir"], "/");

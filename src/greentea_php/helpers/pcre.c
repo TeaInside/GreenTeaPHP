@@ -15,7 +15,7 @@ void my_pcre_res_destroy(pcre_res *result)
   result->r = NULL;
 }
 
-pcre2_code *my_pcre_compile(const unsigned char *pattern, uint32_t options)
+pcre2_code *gt_pcre_compile(const unsigned char *pattern, uint32_t options)
 {
   int err_number;
   pcre2_code *re;
@@ -29,7 +29,7 @@ pcre2_code *my_pcre_compile(const unsigned char *pattern, uint32_t options)
   return re;
 }
 
-int my_pcre_find(pcre2_code *re, const unsigned char *subject, pcre_res* result)
+int gt_pcre_find(pcre2_code *re, const unsigned char *subject, pcre_res* result)
 {
   size_t subject_length;
   PCRE2_SIZE *ovector;

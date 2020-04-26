@@ -5,14 +5,14 @@
 #include <greentea/helpers/pcre.h>
 
 typedef struct {
-  pcre2_code *compile;
+  pcre2_code *pat;
+  void *handler;
 } greentea_routes;
 
 
 #ifdef __cplusplus
 
 extern "C" void greentea_init_routes();
-
 
 #else // #ifdef __cplusplus
 

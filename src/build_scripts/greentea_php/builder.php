@@ -30,7 +30,9 @@ recursive_callback_scan(
             is_dir($targetDir) or mkdir($targetDir);
             PHPClass::compile($dir."/".$file, $targetDir, $targetFile);
 
-            ConfigM4::addFile($edir.$targetFile);
+            if (!in_array($m[2], ["hpp", "h", "hxx"])) {
+                ConfigM4::addFile($edir.$targetFile);
+            }
         } else if (preg_match("/.+\.c$/", $file)) {
             ConfigM4::addFile($edir.$file);
         }
