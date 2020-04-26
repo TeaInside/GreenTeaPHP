@@ -6,6 +6,10 @@
 
 #include <greentea/helpers/pcre.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void gt_pcre_res_destroy(pcre_res *result)
 {
   for (int i = 0; i < result->count; ++i) {
@@ -69,3 +73,7 @@ ret:
   }
   return rc;
 }
+
+#ifdef __cplusplus
+}
+#endif

@@ -5,6 +5,10 @@
 
 #include "greentea_php.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 zval *get_server_var(char *key)
 {
   return zend_hash_str_find(
@@ -71,3 +75,7 @@ char *trim(char *str)
   }
   return str;
 }
+
+#ifdef __cplusplus
+}
+#endif

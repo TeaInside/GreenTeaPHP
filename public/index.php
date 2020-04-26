@@ -1,5 +1,4 @@
 <?php
 
-$index = new GreenTea\Controllers\Index;
-$index->hello();
-var_dump(new GreenTea\Web);
+$index = new GreenTea\GreenTea;
+$index->initWeb();

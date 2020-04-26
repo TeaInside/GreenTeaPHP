@@ -1,24 +1,18 @@
 
 #include <iostream>
 
-<?php
-$st = new PHPClass("GreenTea\\Controllers", "Index", __FILE__);
-$st->start();
-$st->addProperty("username", "null");
-$st->addProperty("password", "null");
-?>
+#include "Index.hpp"
 
-<?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
+namespace App::GreenTea::Controllers {
+
+Index::Index(route_pass &_r): r(_r)
 {
-
 }
 
-<?php $st->method("hello"); ?>
+bool Index::hello()
 {
-  php_printf("Hello World from Index!\n");
+  php_printf("Hello World from App::GreenTea::Controllers::Index::hello()!\n");
+  return true;
 }
 
-<?php
-$st->end();
-PHPClass::expose($st);
-?>
+} // namespace App::GreenTea::Controllers

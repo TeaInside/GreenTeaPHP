@@ -1,6 +1,7 @@
 
 #define GREENTEA_MAIN
 #include "greentea_php.h"
+#include "routes/WebRoutes.hpp"
 
 #ifdef COMPILE_DL_GREENTEA
   #ifdef ZTS
@@ -18,6 +19,7 @@ ZEND_DECLARE_MODULE_GLOBALS(greentea);
 static PHP_MINIT_FUNCTION(greentea)
 {
   <?php echo PhpClass::buildMinitClasses(); ?>
+  GreenTeaInitWebRoutes();
   REGISTER_INI_ENTRIES();
   return SUCCESS;
 }

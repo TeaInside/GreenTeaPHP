@@ -15,8 +15,9 @@ foreach ($constants as $constant) {
   }
 }
 
-$appDir   = APP_DIR."/cpp";
-$buildDir = BUILD_DIR."/greentea_php";
+$appDir     = APP_DIR."/cpp";
+$buildDir   = BUILD_DIR."/greentea_php";
+$routesDir  = BASEPATH."/routes";
 
 if ((!is_dir($buildDir)) && (!mkdir($buildDir))) {
   echo "Cannot create greentea_php build dir: {$buildDir}!\n";
@@ -26,8 +27,11 @@ if ((!is_dir($buildDir)) && (!mkdir($buildDir))) {
 // Add main files to m4.
 ConfigM4::addFile("app_entry.compiled.cpp");
 ConfigM4::addFile("greentea_php.compiled.c");
+ConfigM4::addIncludePath(BASEPATH);
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR);
 ConfigM4::addIncludePath(GREENTEA_PHP_SRC_DIR."/include");
+ConfigM4::addIncludePath($buildDir."/include");
+is_dir($buildDir."/include") or mkdirp($buildDir."/include");
 PHPClass::setAppToucherFile($buildDir."/app_entry.compiled.cpp");
 
 /**
@@ -45,7 +49,7 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
       return;
 
     $edir     = explode(GREENTEA_PHP_SRC_DIR, $dir, 2);
-    $edir     = isset($edir[1]) ? trim($edir[1], "/")."/" : "/";
+    $edir     = isset($edir[1]) ? ltrim(trim($edir[1], "/")."/", "/") : "/";
 
     if (preg_match("/^(.+)\.php\.(.{1,5})$/", $file, $m)) {
       $sourceFile = $dir."/".$file;
@@ -62,20 +66,24 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
 );
 
 /**
- * GreenTea core generator.
+ * GreenTea app generator.
  */
 recursive_callback_scan($appDir,
   function (string $file, string $dir, int $i) use ($buildDir, $appDir) {
 
+    $pureBd   = $buildDir;
     $buildDir = rtrim($buildDir, "/")."/app";
     $edir     = explode($appDir, $dir, 2);
-    $edir     = isset($edir[1]) ? trim($edir[1], "/")."/" : "/";
+    $edir     = isset($edir[1]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
 
     if (preg_match("/^(.+)\.php\.(.{1,5})$/", $file, $m)) {
       $sourceFile = $dir."/".$file;
       $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
       mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile);
+      if (in_array($m[2], ["h", "hpp", "hxx"])) {
+        @link($targetFile, $pureBd."/include/".$m[1].".".$m[2]);
+      }
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       $targetFile = $buildDir."/".$edir.$file;
       @link($targetFile, $dir."/".$file);
@@ -83,6 +91,34 @@ recursive_callback_scan($appDir,
     isset($targetFile) and PHPClass::addAppFile($targetFile);
   }
 );
+
+/**
+ * GreenTea routes generator.
+ */
+recursive_callback_scan($routesDir,
+  function (string $file, string $dir, int $i) use ($buildDir, $routesDir) {
+
+    $pureBd   = $buildDir;
+    $buildDir = rtrim($buildDir, "/")."/routes";
+    $edir     = explode($routesDir, $dir, 2);
+    $edir     = isset($edir[1]) ? ltrim(trim($edir[1], "/")."/", "/") : "";
+
+    if (preg_match("/^(.+)\.php\.(.{1,5})$/", $file, $m)) {
+      $sourceFile = $dir."/".$file;
+      $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
+      mkdirp($buildDir."/".$edir);
+      PHPClass::compile($sourceFile, $targetFile);
+      if (in_array($m[2], ["h", "hpp", "hxx"])) {
+        @link($targetFile, $pureBd."/include/".$m[1].".".$m[2]);
+      }
+    } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
+      $targetFile = $buildDir."/".$edir.$file;
+      @link($targetFile, $dir."/".$file);
+    }
+    isset($targetFile) and PHPClass::addAppFile($targetFile);
+  }
+);
+
 
 PHPClass::compile(
   GREENTEA_PHP_SRC_DIR."/greentea_php.php.c",

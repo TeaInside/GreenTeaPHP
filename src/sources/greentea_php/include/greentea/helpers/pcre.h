@@ -9,6 +9,10 @@
 #include <pcre2.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
   int count;
   char **r;
@@ -24,5 +28,9 @@ pcre2_code *gt_pcre_compile(const unsigned char *pattern, uint32_t options);
 int gt_pcre_find(pcre2_code *re, const unsigned char *subject, pcre_res* result);
 
 #define mp_compile(A, B) gt_pcre_compile((const unsigned char *)A, B)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

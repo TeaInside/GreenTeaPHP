@@ -236,6 +236,15 @@ final class PHPClass
    */
   public static function compile(string $sourceFile, string $targetFile): void
   {
+
+    $scReal = realpath($sourceFile);
+    $scReal = $scReal === false ? $sourceFile : $scReal;
+    $tgReal = realpath($targetFile);
+    $tgReal = $tgReal === false ? $targetFile : $tgReal;
+
+    $__curdir = dirname($scReal);
+    $__targetDirname = dirname($tgReal);
+
     ob_start();
     require $sourceFile;
     $out = ob_get_clean();
@@ -263,7 +272,7 @@ final class PHPClass
    */
   public static function buildAppEntry(): void
   {
-    foreach (self::$appEntryFiles as $file) {
+    foreach (array_unique(self::$appEntryFiles) as $file) {
       echo "#include \"{$file}\"\n";
     }
   }
