@@ -40,10 +40,15 @@ final class PHPClass
   private $methods = [];
 
   /**
+   * @var string
+   */
+  private $ext;
+
+  /**
    * @param string $namespace
    * @param string $classname
    */
-  public function __construct(string $namespace, string $classname)
+  public function __construct(string $namespace, string $classname, string $ext = "c")
   {
     $this->namespace = $namespace;
     $this->classname = $classname;
@@ -69,7 +74,12 @@ final class PHPClass
    */
   public function end(bool $ret = false): ?string
   {
-    $r = "const zend_function_entry {$this->hashed}_methods[] = {\n";
+    if ($this->ext === "c") {
+      $r = "";
+    } else {
+      $r = "extern \"C\" ";
+    }
+    $r .= "const zend_function_entry {$this->hashed}_methods[] = {\n";
     foreach ($this->methods as $k => $v) {
       $v["attr"] = implode(" | ", $v["attr"]);
       $r .= "  PHP_ME({$this->hashed}, {$v["name"]}, NULL, {$v["attr"]})\n";

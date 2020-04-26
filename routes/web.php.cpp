@@ -10,17 +10,15 @@ using namespace std;
 
 extern "C" {
 
-/*
 <?php
-echo "*"."/\n";
 
 echo ($st = new PHPClass("GreenTea", "Routes"));
-$ce = function () use ($st) { echo $st->getHashed()."_ce"; };
+$ce = function () use ($st) { echo $st->getHashed("_ce"); };
+
 $st->addProperty("custom_url", "null", ["ZEND_ACC_PRIVATE"]);
 
-echo "\n/"."*";
 ?>
-*/
+
 
 <?php $st->method("__construct", ["ZEND_ACC_CTOR"]); ?>
 {
@@ -61,9 +59,6 @@ echo "\n/"."*";
   // router here...
 }
 
-<?php
-$st->end();
-PHPClass::expose($st);
-?>
+<?php $st->end(); PHPClass::expose($st); ?>
 
 }; // extern "C"
