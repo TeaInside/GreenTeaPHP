@@ -1,6 +1,6 @@
 
 <?php
-$st = new PHPClass("GreenTea", "GreenTea", __FILE__);
+$st = new PHPClass("GreenTea", "Web", __FILE__);
 $st->start();
 ?>
 
