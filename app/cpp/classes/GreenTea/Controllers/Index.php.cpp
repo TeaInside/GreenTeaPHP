@@ -13,7 +13,7 @@ $st->start();
 
 <?php $st->method("hello"); ?>
 {
-  php_printf("Hello World!\n");
+  php_printf("Hello World from Index!\n");
 }
 
 <?php
