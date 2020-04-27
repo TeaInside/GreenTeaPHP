@@ -12,4 +12,4 @@ php server.php
 - Ammar Faizi
 
 # License
-MIT
+[https://github.com/TeaInside/GreenTeaPHP/blob/master/LICENSE](MIT)
