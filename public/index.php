@@ -1,4 +1,4 @@
 <?php
 
-$index = new GreenTea\GreenTea;
-$index->initWeb();
+// Run greentea PHP framework.
+(new GreenTea\GreenTea)->run();
