@@ -4,5 +4,7 @@
 *.swp
 *.log
 *.lock
+/build/
 /config.h
 /.phpintel/
+/config.php.hpp
