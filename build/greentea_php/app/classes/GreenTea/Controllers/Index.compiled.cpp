@@ -32,11 +32,9 @@ bool Index::queryString()
 bool Index::dumpQueryString()
 {
   php_cf *cf = php_cf_ctor((char *)"var_dump", 1);
-  ZVAL_NEW_STR(&(cf->params));
-  Z_ARRVAL(cf->params[0]) = Z_ARRVAL(PG(http_globals)[TRACK_VARS_GET]);
-  if (php_call_func(cf)) {
-
-  }
+  cf->params = &(PG(http_globals)[TRACK_VARS_GET]);
+  php_call_func(cf);
+  php_cf_dtor(cf);
   return true;
 }
 
