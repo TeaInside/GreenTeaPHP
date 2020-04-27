@@ -29,7 +29,7 @@ inline static void split_query_str(
   }
 }
 
-<?php $st->method("initWeb"); ?>
+<?php $st->method("runWeb"); ?>
 {
   zval *z_uri;
   size_t uri_len = 1, query_str_len = 0;

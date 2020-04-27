@@ -1,4 +1,4 @@
 <?php
 
 // Run greentea PHP framework.
-(new GreenTea\GreenTea)->run();
+(new GreenTea\GreenTea)->runWeb();

@@ -28,7 +28,7 @@ inline static void split_query_str(
   }
 }
 
-PHP_METHOD(GTPHP_HASH_GreenTea_GreenTea, initWeb)
+PHP_METHOD(GTPHP_HASH_GreenTea_GreenTea, runWeb)
 {
   zval *z_uri;
   size_t uri_len = 1, query_str_len = 0;
@@ -52,6 +52,6 @@ PHP_METHOD(GTPHP_HASH_GreenTea_GreenTea, initWeb)
 
 extern "C" const zend_function_entry GTPHP_HASH_GreenTea_GreenTea_methods[] = {
   PHP_ME(GTPHP_HASH_GreenTea_GreenTea, __construct, NULL, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
-  PHP_ME(GTPHP_HASH_GreenTea_GreenTea, initWeb, NULL, ZEND_ACC_PUBLIC)
+  PHP_ME(GTPHP_HASH_GreenTea_GreenTea, runWeb, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

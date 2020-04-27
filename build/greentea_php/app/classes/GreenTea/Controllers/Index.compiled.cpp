@@ -18,11 +18,18 @@ bool Index::hello()
 
 bool Index::queryString()
 {
+  int i = 0;
   HashTable *ht = Z_ARRVAL(PG(http_globals)[TRACK_VARS_GET]);
 
   ZEND_HASH_FOREACH(ht, 0)
     if (_p->key != NULL) {
-      php_printf("qstr: \"%s\" = \"%s\"<br>", _p->key->val, Z_STRVAL_P(_z));
+      php_printf(
+        "Query string [%d]: \"%s\" = \"%s\"<br>",
+        i,
+        _p->key->val,
+        Z_STRVAL_P(_z)
+      );
+      i++;
     }
   ZEND_HASH_FOREACH_END();
 
