@@ -5,6 +5,7 @@ A PHP Framework Written in C/C++
 ```sh
 git clone https://github.com/TeaInside/GreenTeaPHP
 cd GreenTeaPHP
+cp config.php.hpp.example config.php.hpp
 php build.php
 php server.php
 ```
