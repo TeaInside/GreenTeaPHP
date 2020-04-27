@@ -20,7 +20,7 @@ $routes = [
     "pat" => ["/^\/test_substr$/", []],
     "act" => [
       "class" => "App::GreenTea::Controllers::Index",
-      "method" => "testCallSubstr"
+      "method" => "dumpQueryString"
     ]
   ],
 ];

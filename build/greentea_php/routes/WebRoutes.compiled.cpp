@@ -75,7 +75,7 @@ void WebRoutes::initWebRoutes()
   gt_web_routes[2].pat = mp_compile("^\\/test_substr$", 0);
   gt_web_routes[2].handler = [](route_pass &r) {
     Index *st = new Index(r);
-    bool ret = st->testCallSubstr();
+    bool ret = st->dumpQueryString();
     delete st;
     return ret;
   };

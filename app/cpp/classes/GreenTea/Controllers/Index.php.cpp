@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Index.hpp"
+#include <greentea/helpers/php.h>
 
 namespace App::GreenTea::Controllers {
 
@@ -28,34 +29,14 @@ bool Index::queryString()
   return true;
 }
 
-bool Index::testCallSubstr()
+bool Index::dumpQueryString()
 {
-  char *error = NULL;
-  zend_fcall_info fci;
-  zend_fcall_info_cache fci_cache;
-  zval params[2], retval, callable;
+  php_cf *cf = php_cf_ctor((char *)"var_dump", 1);
+  ZVAL_NEW_STR(&(cf->params));
+  Z_ARRVAL(cf->params[0]) = Z_ARRVAL(PG(http_globals)[TRACK_VARS_GET]);
+  if (php_call_func(cf)) {
 
-  ZVAL_STRING(&callable, "substr");
-  ZVAL_STRING(&(params[0]), "abcdef");
-  ZVAL_LONG(&(params[1]), 3);
-
-  zend_fcall_info_init(&callable, 0, &fci, &fci_cache, NULL, &error);
-  fci.params = params;
-  fci.param_count = 2;
-  fci.retval = &retval;
-
-
-  if (zend_call_function(&fci, &fci_cache) == SUCCESS && Z_TYPE(retval) != IS_UNDEF) {
-    if (Z_ISREF(retval)) {
-      zend_unwrap_reference(&retval);
-    }
   }
-  // output must be "def"
-  php_printf("Output: %s\n", Z_STRVAL(retval));
-  zval_dtor(&params[0]);
-  zval_dtor(&params[1]);
-  zval_dtor(&callable);
-  zval_dtor(&retval);
   return true;
 }
 

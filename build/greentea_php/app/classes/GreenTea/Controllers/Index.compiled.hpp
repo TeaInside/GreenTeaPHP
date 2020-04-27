@@ -15,7 +15,7 @@ public:
   Index(route_pass &r);
   bool hello();
   bool queryString();
-  bool testCallSubstr();
+  bool dumpQueryString();
 };
 
 } // namespace App::GreenTea::Controllers
