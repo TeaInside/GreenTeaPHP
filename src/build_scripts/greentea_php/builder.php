@@ -150,3 +150,33 @@ she("cp -vf ".
     escapeshellarg($buildDir."/modules/greentea.so")." ".
     escapeshellarg(MODULES_DIR)
 );
+
+
+file_exists($buildDir."/.gitignore") or
+file_put_contents($buildDir."/.gitignore",
+"*.la
+*.lo
+.libs/
+Makefile
+Makefile.fragments
+Makefile.global
+Makefile.objects
+acinclude.m4
+aclocal.m4
+autom4te.cache/
+build/
+config.guess
+config.h
+config.h.in
+config.nice
+config.status
+config.sub
+configure
+configure.ac
+install-sh
+libtool
+ltmain.sh
+missing
+mkinstalldirs
+modules/
+run-tests.php");
