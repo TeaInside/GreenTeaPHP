@@ -4717,7 +4717,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
   old_IFS=$IFS
-  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c; do
+  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c modules/GreenTea/PDO.compiled.cpp modules/GreenTea/PDO.compiled.hpp; do
 
       IFS=.
       set $ac_src
@@ -4766,7 +4766,7 @@ EOF
 
 
   old_IFS=$IFS
-  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c; do
+  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c modules/GreenTea/PDO.compiled.cpp modules/GreenTea/PDO.compiled.hpp; do
 
       IFS=.
       set $ac_src
@@ -4847,7 +4847,7 @@ _ACEOF
 
 
   old_IFS=$IFS
-  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c; do
+  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c modules/GreenTea/PDO.compiled.cpp modules/GreenTea/PDO.compiled.hpp; do
 
       IFS=.
       set $ac_src
@@ -4893,7 +4893,7 @@ EOF
 
 
   old_IFS=$IFS
-  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c; do
+  for ac_src in app_entry.compiled.cpp greentea_php.compiled.c classes/GreenTea/GreenTea.compiled.cpp helpers/global.c helpers/pcre.c helpers/php.c modules/GreenTea/PDO.compiled.cpp modules/GreenTea/PDO.compiled.hpp; do
 
       IFS=.
       set $ac_src

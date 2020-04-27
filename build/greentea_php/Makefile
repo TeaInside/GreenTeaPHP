@@ -9,7 +9,7 @@ CONFIGURE_OPTIONS =
 SHLIB_SUFFIX_NAME = so
 SHLIB_DL_SUFFIX_NAME = so
 AWK = nawk
-shared_objects_greentea = app_entry.lo greentea_php.lo classes/GreenTea/GreenTea.lo helpers/global.lo helpers/pcre.lo helpers/php.lo
+shared_objects_greentea = app_entry.lo greentea_php.lo classes/GreenTea/GreenTea.lo helpers/global.lo helpers/pcre.lo helpers/php.lo modules/GreenTea/PDO.lo modules/GreenTea/PDO.lo
 PHP_PECL_EXTENSION = greentea
 GREENTEA_SHARED_LIBADD =
 PHP_MODULES = $(phplibdir)/greentea.la
@@ -200,6 +200,10 @@ helpers/pcre.lo: /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/he
 	$(LIBTOOL) --mode=compile $(CC) -Wall -I. -I/home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/helpers/pcre.c -o helpers/pcre.lo 
 helpers/php.lo: /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/helpers/php.c
 	$(LIBTOOL) --mode=compile $(CC) -Wall -I. -I/home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/helpers/php.c -o helpers/php.lo 
+modules/GreenTea/PDO.lo: /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/modules/GreenTea/PDO.compiled.cpp
+	$(LIBTOOL) --mode=compile $(CXX) -Wall -I. -I/home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php $(COMMON_FLAGS) $(CXXFLAGS_CLEAN) $(EXTRA_CXXFLAGS)  -c /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/modules/GreenTea/PDO.compiled.cpp -o modules/GreenTea/PDO.lo 
+modules/GreenTea/PDO.lo: /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/modules/GreenTea/PDO.compiled.hpp
+	$(LIBTOOL) --mode=compile $(CXX) -Wall -I. -I/home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php $(COMMON_FLAGS) $(CXXFLAGS_CLEAN) $(EXTRA_CXXFLAGS)  -c /home/ammarfaizi2/project/now/GreenTeaPHP/build/greentea_php/modules/GreenTea/PDO.compiled.cpp -o modules/GreenTea/PDO.lo 
 $(phplibdir)/greentea.la: ./greentea.la
 	$(LIBTOOL) --mode=install cp ./greentea.la $(phplibdir)
 
