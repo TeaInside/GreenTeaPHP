@@ -10,7 +10,7 @@ private:
 public:
   PDO();
   ~PDO();
-}
+};
 
 } // namespace App::GreenTea::Controllers
 

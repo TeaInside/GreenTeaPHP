@@ -56,7 +56,11 @@ recursive_callback_scan(GREENTEA_PHP_SRC_DIR,
       $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
       mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile);
-      ConfigM4::addFile($edir.$m[1].".compiled.".$m[2]);
+      if (in_array($m[2], ["h", "hpp", "hxx"])) {
+        @link($targetFile, $buildDir."/include/".$m[1].".".$m[2]);
+      } else {
+        ConfigM4::addFile($edir.$m[1].".compiled.".$m[2]);
+      }
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       mkdirp($buildDir."/".$edir);
       @link($dir."/".$file, $buildDir."/".$edir.$file);
@@ -81,14 +85,14 @@ recursive_callback_scan($appDir,
       $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
       mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile);
-      if (in_array($m[2], ["h", "hpp", "hxx"])) {
+      if ($isHeaderFile = in_array($m[2], ["h", "hpp", "hxx"])) {
         @link($targetFile, $pureBd."/include/".$m[1].".".$m[2]);
       }
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       $targetFile = $buildDir."/".$edir.$file;
       @link($targetFile, $dir."/".$file);
     }
-    isset($targetFile) and PHPClass::addAppFile($targetFile);
+    (isset($targetFile) && (!$isHeaderFile)) and PHPClass::addAppFile($targetFile);
   }
 );
 
@@ -108,14 +112,14 @@ recursive_callback_scan($routesDir,
       $targetFile = $buildDir."/".$edir.$m[1].".compiled.".$m[2];
       mkdirp($buildDir."/".$edir);
       PHPClass::compile($sourceFile, $targetFile);
-      if (in_array($m[2], ["h", "hpp", "hxx"])) {
+      if ($isHeaderFile = in_array($m[2], ["h", "hpp", "hxx"])) {
         @link($targetFile, $pureBd."/include/".$m[1].".".$m[2]);
       }
     } else if (preg_match("/^.+\.(c|cpp)$/", $file, $m)) {
       $targetFile = $buildDir."/".$edir.$file;
       @link($targetFile, $dir."/".$file);
     }
-    isset($targetFile) and PHPClass::addAppFile($targetFile);
+    (isset($targetFile) && (!$isHeaderFile)) and PHPClass::addAppFile($targetFile);
   }
 );
 
