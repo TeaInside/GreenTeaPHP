@@ -6,7 +6,6 @@ echo "#include \"{$__targetDirname}/using_def.hpp\"";
 require "{$__curdir}/WebRoutes.hpp";
 ?>
 
-_gt_web_routes gt_web_routes[10];
 #define rts gt_web_routes
 #define routes_count (sizeof(gt_web_routes)/sizeof(gt_web_routes[0]))
 
@@ -15,10 +14,7 @@ WebRoutes::WebRoutes(char *uri)
   this->uri = uri;
 }
 
-void WebRoutes::initWebRoutes()
-{
 <?php require "{$__curdir}/web_routes.php"; ?>
-}
 
 extern "C" {
 void GreenTeaInitWebRoutes()
