@@ -48,6 +48,49 @@ void php_cf_dtor(php_cf *st)
   efree(st);
 }
 
+zval *get_server_var(char *key)
+{
+  return zend_hash_str_find(
+    Z_ARRVAL(PG(http_globals)[TRACK_VARS_SERVER]),
+    key, strlen(key));
+}
+
+zval *get_post_var(char *key)
+{
+  return zend_hash_str_find(
+    Z_ARRVAL(PG(http_globals)[TRACK_VARS_POST]),
+    key, strlen(key));
+}
+
+zval *get_get_var(char *key)
+{
+  return zend_hash_str_find(
+    Z_ARRVAL(PG(http_globals)[TRACK_VARS_GET]),
+    key, strlen(key));
+}
+
+zval *get_files_var(char *key)
+{
+  return zend_hash_str_find(
+    Z_ARRVAL(PG(http_globals)[TRACK_VARS_FILES]),
+    key, strlen(key));
+}
+
+zval *get_global_var(char *name)
+{
+  return zend_hash_str_find(&EG(symbol_table), name, strlen(name));
+}
+
+zval *get_global_var_safe(char *name)
+{
+  zval *r = get_global_var(name);
+  if ((r != NULL) && (Z_TYPE_P(r) == IS_INDIRECT)) {
+    return Z_INDIRECT_P(r);
+  }
+  return r;
+}
+
+
 #ifdef __cplusplus
 }
 #endif

@@ -10,9 +10,9 @@ private:
 public:
   Index(route_pass &r);
   bool hello();
-  bool queryString();
-  bool dumpQueryString();
-  bool test_global_var();
+  bool query_string();
+  bool call_php_func();
+  bool php_global_var();
 };
 
 } // namespace App::GreenTea::Controllers

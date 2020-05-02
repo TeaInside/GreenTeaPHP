@@ -1,4 +1,3 @@
 <?php
-$test = "test";
-(new GreenTea\GreenTea)->runWeb();
 
+(new GreenTea\GreenTea)->runWeb();

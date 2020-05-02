@@ -12,23 +12,23 @@ $routes = [
     "pat" => ["/^\/query_string$/", []],
     "act" => [
       "class" => "App::GreenTea::Controllers::Index",
-      "method" => "queryString"
+      "method" => "query_string"
     ]
   ],
 
   [
-    "pat" => ["/^\/test_substr$/", []],
+    "pat" => ["/^\/call_php_func$/", []],
     "act" => [
       "class" => "App::GreenTea::Controllers::Index",
-      "method" => "dumpQueryString"
+      "method" => "call_php_func"
     ]
   ],
 
   [
-    "pat" => ["/^\/test_global_var$/", []],
+    "pat" => ["/^\/php_global_var$/", []],
     "act" => [
       "class" => "App::GreenTea::Controllers::Index",
-      "method" => "test_global_var"
+      "method" => "php_global_var"
     ]
   ],
 ];
