@@ -33,9 +33,8 @@ $routes = [
   ],
 ];
 
-$handle = fopen("{$__targetDirname}/using_def.hpp", "w");
-flock($handle, LOCK_EX);
-
+echo "_gt_web_routes gt_web_routes[".(sizeof($routes) + 1)."];\n";
+echo "void WebRoutes::initWebRoutes()\n{\n";
 foreach ($routes as $k => $route) {
 
   $cm = explode("::", $route["act"]["class"]);
@@ -56,8 +55,13 @@ foreach ($routes as $k => $route) {
     return ret;
   };
 <?php
-  fwrite($handle, "using namespace {$namespace};\n");
+  $namespaces[] = $namespace;
 }
 
-echo "\n";
+$handle = fopen("{$__targetDirname}/using_def.hpp", "w");
+flock($handle, LOCK_EX);
+foreach (array_unique($namespaces) as $namespace) {
+  fwrite($handle, "using namespace {$namespace};\n");
+}
 fclose($handle);
+echo "\n}\n";

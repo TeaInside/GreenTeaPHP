@@ -15,9 +15,9 @@ $builds = [
 // Do it here to isolate local variables.
 function req_isolate_variables(string $file)
 {
-    require $file;
+  require $file;
 }
 
 foreach ($builds as $v) {
-    req_isolate_variables($v);
+  req_isolate_variables($v);
 }
