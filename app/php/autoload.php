@@ -12,4 +12,3 @@ function greenTeaPHPAutoloader(string $class): void
 }
 
 spl_autoload_register("greenTeaPHPAutoloader");
-
