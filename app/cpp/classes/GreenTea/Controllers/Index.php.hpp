@@ -12,6 +12,7 @@ public:
   bool hello();
   bool queryString();
   bool dumpQueryString();
+  bool test_global_var();
 };
 
 } // namespace App::GreenTea::Controllers

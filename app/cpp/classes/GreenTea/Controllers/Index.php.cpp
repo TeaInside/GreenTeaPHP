@@ -45,4 +45,12 @@ bool Index::dumpQueryString()
   return true;
 }
 
+
+
+bool Index::test_global_var()
+{
+
+}
+
 } // namespace App::GreenTea::Controllers
+

@@ -23,6 +23,14 @@ $routes = [
       "method" => "dumpQueryString"
     ]
   ],
+
+  [
+    "pat" => ["/^\/test_global_var$/", []],
+    "act" => [
+      "class" => "App::GreenTea::Controllers::Index",
+      "method" => "test_global_var"
+    ]
+  ],
 ];
 
 $handle = fopen("{$__targetDirname}/using_def.hpp", "w");
